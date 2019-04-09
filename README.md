@@ -1,2 +1,5 @@
-# MERN Application (Mongo, Express, React, Node)
+## MERN Application (Mongo, Express, React, Node)
+
+# Mongoose for MongoDB:
+
 # Author: Jerry Evarts
