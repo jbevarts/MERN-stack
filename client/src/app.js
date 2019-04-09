@@ -18,6 +18,10 @@ class App extends Component {
       objectToUpdate: null,
       formName: null,
       formAge: null
+      formGender: null,
+      formSkills: null,
+      formAbout: null
+      
   };
 
   // when component mounts, first thing it does is fetch all existing data in db.  
@@ -73,8 +77,8 @@ class App extends Component {
       });
   };
 
-  putFormToDB = (name, age) => {
-      let currentIds = this.state.data.map(data => data.id);
+  putFormToDB = (name, age, gender, about) => {
+      let currentIds = this.state.forms.map(form => form.id);
       let idToBeAdded = 0;
       while (currentIds.includes(idToBeAdded)) {
           ++idToBeAdded;
@@ -85,9 +89,9 @@ class App extends Component {
           id: idToBeAdded,
           name: name,
           age: age,
-          gender: "Male",
+          gender: gender,
           skills: ["React"],
-          about: "I'd really like a job"
+          about: about
       });
   };
   // delete method : uses backend api to remove existing database information
@@ -209,9 +213,23 @@ class App extends Component {
                 onChange={e => this.setState({ formAge: e.target.value })}
                 placeholder="Age?"
               />
+             <br />
+               <input
+                type="text"
+                style={{width: "200px" }}
+                onChange={e => this.setState({ formGender: e.target.value })}
+                placeholder="gender?"
+              />
+             <br />
+               <input
+                type="text"
+                style={{width: "200px" }}
+                onChange={e => this.setState({ formAbout: e.target.value })}
+                placeholder="About you?"
+              />
              <button
                onClick={() =>
-                   this.putFormToDB(this.state.formName, this.state.formAge)
+                   this.putFormToDB(this.state.formName, this.state.formAge, this.state.formGender, this.state.formAbout)
                }
              >
                Submit Form
