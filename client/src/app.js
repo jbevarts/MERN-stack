@@ -1,7 +1,7 @@
 // /client/App.js
 import React, { Component } from 'react';
 import axios from "axios";
-
+import FormContainer from './containers/FormContainer';
 
 class App extends Component {
   
@@ -156,6 +156,10 @@ class App extends Component {
             >
               UPDATE
             </button>
+          </div>
+          <div className="container">
+            <h3>Form </h3>
+            <FormContainer />
           </div>
         </div>
     );
