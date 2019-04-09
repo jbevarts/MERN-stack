@@ -6,11 +6,12 @@ const Schema = mongoose.Schema;
 
 const FormDataSchema = new Schema(
     {
+        type: String,
         id: Number,
         name: String,
         age: Number,
         gender: String,
-        skills: Array, // maybe change this
+        skills: [String], // maybe change this
         about: String
     },
     { timestamps: true }
@@ -18,4 +19,4 @@ const FormDataSchema = new Schema(
 
 
 // export the new Schema so we could modify it using Node.js
-module.exports = mongoose.model("Form", DataSchema);
+module.exports = mongoose.model("Form", FormDataSchema);

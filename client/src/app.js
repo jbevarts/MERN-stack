@@ -2,19 +2,22 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import FormContainer from './containers/FormContainer';
-
+import './styles.css';
 class App extends Component {
   
     
   // initialize state  
   state = {
       data: [],
+      forms: [],
       id: 0,
       message: null,
       intervalIsSet: false,
       idToDelete: null,
       idToUpdate: null,
-      objectToUpdate: null
+      objectToUpdate: null,
+      formName: null,
+      formAge: null
   };
 
   // when component mounts, first thing it does is fetch all existing data in db.  
@@ -48,6 +51,10 @@ class App extends Component {
       fetch("http://localhost:3001/api/getData")
       .then(data => data.json())
       .then(res => this.setState({ data: res.data }))
+      fetch("http://localhost:3001/api/getFormData")
+      .then(data => data.json())
+      .then(res => this.setState({ forms: res.data }))
+  
   }
 
 
@@ -60,11 +67,29 @@ class App extends Component {
       }
 
       axios.post("http://localhost:3001/api/putData", {
+          type: "data",
           id: idToBeAdded,
           message: message
       });
   };
 
+  putFormToDB = (name, age) => {
+      let currentIds = this.state.data.map(data => data.id);
+      let idToBeAdded = 0;
+      while (currentIds.includes(idToBeAdded)) {
+          ++idToBeAdded;
+      }
+
+      axios.post("http://localhost:3001/api/putForm", {
+          type: "Form",
+          id: idToBeAdded,
+          name: name,
+          age: age,
+          gender: "Male",
+          skills: ["React"],
+          about: "I'd really like a job"
+      });
+  };
   // delete method : uses backend api to remove existing database information
   deleteFromDB = idTodelete => {
       let objIdToDelete = null;
@@ -101,19 +126,28 @@ class App extends Component {
   // visualize the capabilities
  
   render() {
+
+    // the notation below selects the data field within this.state
     const { data } = this.state;
+    const { forms } = this.state;
     return (
         <div>
-          <ul>
-            {data.length <= 0 ? "No DB Entries Yet" : data.map(dat => (
-             // TODO: add a conditional for check for form data
-                <li style={{ padding: "10px" }} key={data.message}>
-                  <span style={{ color: "gray" }}> id: </span> {dat.id} <br />
-                  <span style={{ color: "gray" }}> data: </span>
-                  {dat.message}
-                </li>
-            ))}
-          </ul>
+          
+         <div className="right">
+             {data.length <= 0 ? "No DB Entries Yet" : data.map(dat => (
+               <div className="data">
+                 <span className="itemEntry">type: </span>{dat.type}<br />
+                 <span className="itemEntry">id: </span>{dat.id}<br />
+                 <span className="itemEntry">message: </span>{dat.message}</div>))}
+         <br />
+         <br />
+             {forms.length <= 0 ? "No Form Entries Yet" : forms.map(form => (
+               <div className="form">
+                 <span className="itemEntry">type: </span>{form.type}<br />
+                 <span className="itemEntry">id: </span> {form.id}</div>))}
+          </div>
+
+          <div className ="left">
           <div style={{ padding: "10px" }}>
             <input
               type="text"
@@ -157,6 +191,33 @@ class App extends Component {
             >
               UPDATE
             </button>
+            <br />
+            <br />
+            <div className="w3-container">
+              <p> Gonna fill out the form below </p>
+              <br />
+              <input
+               type="text"
+               style={{width: "200px" }}
+               onChange={e => this.setState({ formName: e.target.value })}
+               placeholder="Name?"
+             />
+             <br />
+               <input
+                type="text"
+                style={{width: "200px" }}
+                onChange={e => this.setState({ formAge: e.target.value })}
+                placeholder="Age?"
+              />
+             <button
+               onClick={() =>
+                   this.putFormToDB(this.state.formName, this.state.formAge)
+               }
+             >
+               Submit Form
+             </button>
+            </div>
+            </div>
           </div>
         </div>
     );

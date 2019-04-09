@@ -4,7 +4,7 @@ var cors = require('cors');
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const Data = require("./data");
-
+const Form = require("./form");
 
 const API_PORT = 3001;
 const app = express();
@@ -48,6 +48,13 @@ router.get("/getData", (req, res) => {
     });
 });
 
+router.get("/getFormData", (req, res) => {
+    Form.find((err, data) => {
+        if (err) return res.json({success: false, error: err });
+        return res.json({success: true, data: data});
+    });
+});
+
 // this is our update method
 // this method overwrites existing data in our database
 router.post("/updateData", (req, res) => {
@@ -74,17 +81,36 @@ router.delete("/deleteData", (req, res) => {
 router.post("/putData", (req, res) => {
     let data = new Data();
 
-    const { id, message } = req.body;
+    const {type, id, message } = req.body;
     if ((!id && id !== 0) || !message) {
         return res.json({
             success: false,
             error: "INVALID INPUTS"
         });
     }
+    data.type = type;
     data.message = message;
     data.id = id;
     data.save(err => {
         if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true });
+    });
+});
+
+router.post("/putForm", (req, res) => {
+    let form = new Form();
+    const {type, id, name, age, gender, skills, about} = req.body;
+    // TODO: add some input sanitization similar to above in putData
+    form.type = type;
+    form.id = id;
+    form.name = name;
+    form.age = age;
+    form.gender = gender;
+    form.skills = skills;
+    form.about = about;
+    form.save(err => {
+        if (err) return res.json({ success: false, error: err });
+        console.log("i'm not failing");
         return res.json({ success: true });
     });
 });
