@@ -2,7 +2,6 @@
 
 ## Technology Overview:
 
-
 ### React
 JS library for building UI's
 
@@ -16,7 +15,7 @@ Express is a popular Node Web framework.
 ### Axios
 JS library that streamlines error handling in HTTP requests.
 
-### Mongo:
+### Mongo ( Cluster in Cloud thanks to AWS, max 1 GB ):
 MongoDB is a schema-less NoSQL document database.
 - Means you can store JSON documents in it, and the structure of these documents can vary as it is not enforced like SQL databases. 
 - This is one of the advantages of using NoSQL as it speeds up application development and reduces the complexity of deployments.
