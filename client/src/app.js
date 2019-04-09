@@ -106,6 +106,7 @@ class App extends Component {
         <div>
           <ul>
             {data.length <= 0 ? "No DB Entries Yet" : data.map(dat => (
+             // TODO: add a conditional for check for form data
                 <li style={{ padding: "10px" }} key={data.message}>
                   <span style={{ color: "gray" }}> id: </span> {dat.id} <br />
                   <span style={{ color: "gray" }}> data: </span>
