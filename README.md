@@ -1,2 +1,2 @@
-# react
-# react
+# MERN Application (Mongo, Express, React, Node)
+# Author: Jerry Evarts
