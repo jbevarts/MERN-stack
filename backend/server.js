@@ -34,6 +34,13 @@ app.use(logger("dev"));
 
 // this is the get method
 // this method fetches all available data in our database
+// the .find() function could take a parameter that selects by parameter, however I believe without a parameter it selects all
+
+
+// I believe the second parameter, data, is an assumed return parameter for the passed in "closure" more or less.
+
+// TODO: I could add a get method that selects by form type or something...
+
 router.get("/getData", (req, res) => {
     Data.find((err, data) => {
         if (err) return res.json({success: false, error: err });
