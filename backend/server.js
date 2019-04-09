@@ -42,7 +42,7 @@ app.use(logger("dev"));
 // TODO: I could add a get method that selects by form type or something...
 
 router.get("/getData", (req, res) => {
-    Data.find({"id": 3},(err, data) => {
+    Data.find((err, data) => {
         if (err) return res.json({success: false, error: err });
         return res.json({success: true, data: data});
     });

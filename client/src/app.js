@@ -158,10 +158,6 @@ class App extends Component {
               UPDATE
             </button>
           </div>
-          <div className="container">
-            <h3>Form </h3>
-            <FormContainer />
-          </div>
         </div>
     );
   }
