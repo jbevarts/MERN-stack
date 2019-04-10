@@ -11,6 +11,7 @@ const FormDataSchema = new Schema(
         name: String,
         age: Number,
         gender: String,
+        salary: Number,
         skills: [String], // maybe change this
         about: String
     },
