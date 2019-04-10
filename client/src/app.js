@@ -203,6 +203,7 @@ class App extends Component {
                  <span className="itemEntry">id: </span> {form.id}<br />
                  <span className="itemEntry">name: </span> {form.name}<br />
                  <span className="itemEntry">gender: </span> {form.gender}<br />
+                 <span className="itemEntry">salary: </span> {form.salary}<br />
                  <span className="itemEntry">about: </span> {form.about}</div>))}
           </div>
 
