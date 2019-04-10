@@ -25,5 +25,7 @@ Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. It ma
 
 ### Victory
 Popular 3rd party visualization JS library that has simple API
+https://formidable.com/open-source/victory/
+
 
 ### Author: Jerry Evarts
