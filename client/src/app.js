@@ -3,8 +3,11 @@ import React, { Component } from 'react';
 import axios from "axios";
 import FormContainer from './containers/FormContainer';
 import './styles.css';
+//import CanvasJS from 'canvasjs';
+//import CanvasJSReact from './canvasjs/canvasjs.react';
+//var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
 class App extends Component {
-  
     
   // initialize state  
   state = {
@@ -17,7 +20,7 @@ class App extends Component {
       idToUpdate: null,
       objectToUpdate: null,
       formName: null,
-      formAge: null
+      formAge: null,
       formGender: null,
       formSkills: null,
       formAbout: null
@@ -148,7 +151,10 @@ class App extends Component {
              {forms.length <= 0 ? "No Form Entries Yet" : forms.map(form => (
                <div className="form">
                  <span className="itemEntry">type: </span>{form.type}<br />
-                 <span className="itemEntry">id: </span> {form.id}</div>))}
+                 <span className="itemEntry">id: </span> {form.id}<br />
+                 <span className="itemEntry">name: </span> {form.name}<br />
+                 <span className="itemEntry">gender: </span> {form.gender}<br />
+                 <span className="itemEntry">about: </span> {form.about}</div>))}
           </div>
 
           <div className ="left">
