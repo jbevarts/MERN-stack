@@ -32,7 +32,7 @@ https://formidable.com/open-source/victory/
 
 
 ### Design Goals
-- Implement raw data schema for DB ## DONE 4/5
+- Implement raw data schema for DB ** DONE 4/5 ** 
 - Establish HTTP cycle between backend and frontend ## DONE 4/5
 - Create polling mechanism for updating state ## DONE 4/7 
 - "Hello World" concurrently between front and backend. ## DONE 4/7
