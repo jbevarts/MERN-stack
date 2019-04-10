@@ -28,4 +28,20 @@ Popular 3rd party visualization JS library that has simple API
 https://formidable.com/open-source/victory/
 
 
+
+
+### Design Goals
+- Implement A form
+- Implement A graph w/ dummy data
+- Implement data from forms into graph
+- Implement animations for graph
+- Implement theme for graph
+- Implement 2nd graph of same data
+- Create styles of forms
+- Implement metric selector next to graphs.
+- Implement axis change next to graph
+
+
+
+
 ### Author: Jerry Evarts
