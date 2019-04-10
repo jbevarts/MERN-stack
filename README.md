@@ -26,13 +26,18 @@ Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. It ma
 ### Victory
 Popular 3rd party visualization JS library that has simple API
 https://formidable.com/open-source/victory/
+-- Attempted to use CanvasJS 4/7 though had difficulty with import/export statements.  Further research showed compatibility issues addmitted by vendor, so I ditched it.
 
 
 
 
 ### Design Goals
-- Implement A form
-- Implement A graph w/ dummy data
+- Implement raw data schema for DB ## DONE 4/5
+- Establish HTTP cycle between backend and frontend ## DONE 4/5
+- Create polling mechanism for updating state ## DONE 4/7 
+- "Hello World" concurrently between front and backend. ## DONE 4/7
+- Implement A form Schema and CRUD ## In progress
+- Implement A graph w/ dummy data ## DONE 4/10
 - Implement data from forms into graph
 - Implement animations for graph
 - Implement theme for graph
