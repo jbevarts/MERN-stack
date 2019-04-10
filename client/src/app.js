@@ -4,6 +4,9 @@ import axios from "axios";
 import FormContainer from './containers/FormContainer';
 import './styles.css';
 import ReactDOM from 'react-dom';
+import { VictoryBar, VictoryChart } from 'victory';
+
+
 //import CanvasJS from 'canvasjs';
 //import CanvasJSReact from './canvasjs/canvasjs.react';
 //var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -69,7 +72,7 @@ class App extends Component {
       fetch("http://localhost:3001/api/getFormData")
       .then(data => data.json())
       .then(res => this.setState({ forms: res.data }))
-  
+      this.showGraph(); 
   }
 
 
@@ -155,6 +158,23 @@ class App extends Component {
           update: { message: updateToApply }
       });
   };
+
+  showGraph = () => {
+    const data = [
+    {quarter: 1, earnings: 100},
+    {quarter: 2, earnings: 500},
+    {quarter: 3, earnings: 11000},
+    {quarter: 4, earnings: 19000}
+    ];
+      const myElement = (
+             <div>
+             <VictoryChart>
+             <VictoryBar data={data} x="quarter" y="earnings"/>
+             </VictoryChart>
+             </div> );
+      ReactDOM.render(myElement, document.getElementById("para"));
+  }
+
 
   // here is the UI
   // visualize the capabilities
@@ -283,7 +303,7 @@ class App extends Component {
                 >
                 Submit Form
                </button>
-        
+            <p id="para"> Some Text Here </p>
             </div>
             </div>
           </div>
