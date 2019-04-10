@@ -52,12 +52,6 @@ class App extends Component {
       }
   }
 
-  startGraph = () => {
-      return ReactDOM.render(
-            <App />,
-            document.getElementById('root')
-      );
-  }
 
   // just a note, here, in the front end, we use the id key of our data object
     // in order to identify which we want to Update or Delete.
@@ -161,18 +155,22 @@ class App extends Component {
 
   showGraph = () => {
     const data = [
-    {quarter: 1, earnings: 100},
-    {quarter: 2, earnings: 500},
-    {quarter: 3, earnings: 11000},
-    {quarter: 4, earnings: 19000}
+        {quarter: 1, earnings: 100},
+        {quarter: 2, earnings: 500},
+        {quarter: 3, earnings: 11000},
+        {quarter: 4, earnings: 19000}
     ];
-      const myElement = (
+
+    const newData = this.state.forms.map((form) =>({ 
+        quarter: form.formId, earnings: "3"}));
+        
+    const myElement = (
              <div>
              <VictoryChart>
-             <VictoryBar data={data} x="quarter" y="earnings"/>
+               <VictoryBar data={newData} x="quarter" y="earnings"/>
              </VictoryChart>
-             </div> );
-      ReactDOM.render(myElement, document.getElementById("para"));
+             </div>);
+     ReactDOM.render(myElement, document.getElementById("para"));
   }
 
 
