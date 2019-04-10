@@ -23,10 +23,13 @@ class App extends Component {
       idToDelete: null,
       idToUpdate: null,
       objectToUpdate: null,
+      
+      
       formId: null,
       formName: null,
       formAge: null,
       formGender: null,
+      formSalary: null,
       formSkills: null,
       formAbout: null
       
@@ -85,7 +88,7 @@ class App extends Component {
       });
   };
 
-  putFormToDB = (name, age, gender, about) => {
+  putFormToDB = (name, age, gender, salary, about) => {
       let currentIds = this.state.forms.map(form => form.id);
       let idToBeAdded = 0;
       while (currentIds.includes(idToBeAdded)) {
@@ -98,6 +101,7 @@ class App extends Component {
           name: name,
           age: age,
           gender: gender,
+          salary: salary,
           skills: ["React"],
           about: about
       });
@@ -274,12 +278,19 @@ class App extends Component {
                <input
                 type="text"
                 style={{width: "200px" }}
+                onChange={e => this.setState({ formSalary: e.target.value })}
+                placeholder="salary?"
+              />
+             <br />
+               <input
+                type="text"
+                style={{width: "200px" }}
                 onChange={e => this.setState({ formAbout: e.target.value })}
                 placeholder="About you?"
               />
              <button
                onClick={() =>
-                   this.putFormToDB(this.state.formName, this.state.formAge, this.state.formGender, this.state.formAbout)
+                   this.putFormToDB(this.state.formName, this.state.formAge, this.state.formGender, this.state.formId, this.state.formAbout)
                }
              >
                Submit Form
