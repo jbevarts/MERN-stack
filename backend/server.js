@@ -109,13 +109,14 @@ router.post("/putData", (req, res) => {
 
 router.post("/putForm", (req, res) => {
     let form = new Form();
-    const {type, id, name, age, gender, skills, about} = req.body;
+    const {type, id, name, age, gender, salary, skills, about} = req.body;
     // TODO: add some input sanitization similar to above in putData
     form.type = type;
     form.id = id;
     form.name = name;
     form.age = age;
     form.gender = gender;
+    form.salary = salary;
     form.skills = skills;
     form.about = about;
     form.save(err => {

@@ -38,11 +38,17 @@ https://formidable.com/open-source/victory/
 - "Hello World" concurrently between front and backend. ## DONE 4/7
 - Implement A form Schema and CRUD ## In progress
 - Implement A graph w/ dummy data ## DONE 4/10
-- Implement data from forms into graph
+- Implement data from forms into graph ## DONE 4/10
 - Implement animations for graph
-- Implement theme for graph
+- Implement theme for graph ## DONE 4/10
 - Implement 2nd graph of same data
-- Create styles of forms
+- Create styles of forms ## started 4/10 ** CURRENT GOAL **
+-- Proposed Flow: 
+     High-Level: Forms Container
+     Forms container initially contains: Form styles rendered, button to create new form
+     "onClick" of formStyle -> Render form in container
+     "onClick" of createForm -> Render formCreation in container
+
 - Implement metric selector next to graphs.
 - Implement axis change next to graph
 

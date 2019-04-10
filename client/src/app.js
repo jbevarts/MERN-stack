@@ -4,7 +4,7 @@ import axios from "axios";
 import FormContainer from './containers/FormContainer';
 import './styles.css';
 import ReactDOM from 'react-dom';
-import { VictoryBar, VictoryChart } from 'victory';
+import { VictoryBar, VictoryChart, VictoryTheme } from 'victory';
 
 
 //import CanvasJS from 'canvasjs';
@@ -123,6 +123,16 @@ class App extends Component {
       });
   };
 
+  deleteAllFormsFromDB = () => {
+      this.state.forms.forEach(form => {
+          axios.delete("http://localhost:3001/api/deleteForm", {
+              data: {
+                  id: form._id
+              }
+          });
+      });
+  };
+
   
   // delete method : uses backend api to remove existing database information
    deleteFormFromDbById = idTodelete => {
@@ -166,12 +176,12 @@ class App extends Component {
     ];
 
     const newData = this.state.forms.map((form) =>({ 
-        quarter: form.formId, earnings: "3"}));
+        formId: form.id, salary: form.salary }));
         
     const myElement = (
              <div>
-             <VictoryChart>
-               <VictoryBar data={newData} x="quarter" y="earnings"/>
+             <VictoryChart theme={VictoryTheme.material}>
+               <VictoryBar data={newData} x="formId" y="salary" />
              </VictoryChart>
              </div>);
      ReactDOM.render(myElement, document.getElementById("para"));
@@ -291,13 +301,21 @@ class App extends Component {
               />
              <button
                onClick={() =>
-                   this.putFormToDB(this.state.formName, this.state.formAge, this.state.formGender, this.state.formId, this.state.formAbout)
+                   this.putFormToDB(this.state.formName, this.state.formAge, this.state.formGender, this.state.formSalary, this.state.formId, this.state.formAbout)
                }
              >
                Submit Form
              </button>
             </div>
              <div className="w3-container">
+               <p> delete all forms </p>
+               <button
+                onClick={() =>
+                        this.deleteAllFormsFromDB()}
+               > DELETE ALL 
+               </button>
+        
+        
                <p> Wanna delete a form by id? </p>
                
                <input

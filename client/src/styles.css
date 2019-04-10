@@ -1,6 +1,7 @@
 .left {
     float: left;
     display: inline;
+    width: 25%;
 }
 
 .right {
@@ -31,5 +32,5 @@
 }
 
 #para {
-    width: 200px;
+    width: 100%;
 }
