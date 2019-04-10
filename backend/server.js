@@ -76,6 +76,16 @@ router.delete("/deleteData", (req, res) => {
     });
 });
 
+// this method is for deleting forms
+router.delete("/deleteForm", (req, res) => {
+    const { id } = req.body;
+    Form.findByIdAndRemove(id, err => {
+        if (err) return res.send(err);
+        return res.json({ success: true });
+    });
+});
+
+
 // this is our create method
 // // this method adds new data in our database
 router.post("/putData", (req, res) => {

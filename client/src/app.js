@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import axios from "axios";
 import FormContainer from './containers/FormContainer';
 import './styles.css';
+import ReactDOM from 'react-dom';
 //import CanvasJS from 'canvasjs';
 //import CanvasJSReact from './canvasjs/canvasjs.react';
 //var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -19,6 +20,7 @@ class App extends Component {
       idToDelete: null,
       idToUpdate: null,
       objectToUpdate: null,
+      formId: null,
       formName: null,
       formAge: null,
       formGender: null,
@@ -47,6 +49,12 @@ class App extends Component {
       }
   }
 
+  startGraph = () => {
+      return ReactDOM.render(
+            <App />,
+            document.getElementById('root')
+      );
+  }
 
   // just a note, here, in the front end, we use the id key of our data object
     // in order to identify which we want to Update or Delete.
@@ -114,6 +122,25 @@ class App extends Component {
       });
   };
 
+  
+  // delete method : uses backend api to remove existing database information
+   deleteFormFromDbById = idTodelete => {
+       let objIdToDelete = null;
+       this.state.forms.forEach(form => {
+           if (form.id == idTodelete) {
+               console.log("found a match to delete");
+               objIdToDelete = form._id;
+           }
+       });
+       
+       axios.delete("http://localhost:3001/api/deleteForm", {
+           data: {
+               id: objIdToDelete
+           }
+       });
+   };
+
+    
   // update method : uses backend api to overwrite existing data base information
   updateDb = (idToUpdate, updateToApply) => {
       let objIdToUpdate = null;
@@ -205,7 +232,6 @@ class App extends Component {
             <br />
             <div className="w3-container">
               <p> Gonna fill out the form below </p>
-              <br />
               <input
                type="text"
                style={{width: "200px" }}
@@ -240,6 +266,24 @@ class App extends Component {
              >
                Submit Form
              </button>
+            </div>
+             <div className="w3-container">
+               <p> Wanna delete a form by id? </p>
+               
+               <input
+                 type="text"
+                 style={{width: "200px" }}
+                 onChange={e => this.setState({ formId: e.target.value })}
+                 placeholder="id?"
+               />
+               <button
+                onClick={() =>
+                    this.deleteFormFromDbById(this.state.formId)
+                }
+                >
+                Submit Form
+               </button>
+        
             </div>
             </div>
           </div>
