@@ -6,6 +6,7 @@ import './styles.css';
 import ReactDOM from 'react-dom';
 import { VictoryBar, VictoryChart, VictoryTheme } from 'victory';
 
+var graph = require('./graph.js');
 
 //import CanvasJS from 'canvasjs';
 //import CanvasJSReact from './canvasjs/canvasjs.react';
@@ -17,6 +18,7 @@ class App extends Component {
   state = {
       data: [],
       forms: [],
+      
       id: 0,
       message: null,
       intervalIsSet: false,
@@ -69,7 +71,8 @@ class App extends Component {
       fetch("http://localhost:3001/api/getFormData")
       .then(data => data.json())
       .then(res => this.setState({ forms: res.data }))
-      this.showGraph(); 
+      graph.showGraph(this.state.forms);
+      //this.showGraph(); 
   }
 
 
@@ -166,27 +169,6 @@ class App extends Component {
           update: { message: updateToApply }
       });
   };
-
-  showGraph = () => {
-    const data = [
-        {quarter: 1, earnings: 100},
-        {quarter: 2, earnings: 500},
-        {quarter: 3, earnings: 11000},
-        {quarter: 4, earnings: 19000}
-    ];
-
-    const newData = this.state.forms.map((form) =>({ 
-        formId: form.id, salary: form.salary }));
-        
-    const myElement = (
-             <div>
-             <VictoryChart theme={VictoryTheme.material}>
-               <VictoryBar data={newData} x="formId" y="salary" />
-             </VictoryChart>
-             </div>);
-     ReactDOM.render(myElement, document.getElementById("para"));
-  }
-
 
   // here is the UI
   // visualize the capabilities

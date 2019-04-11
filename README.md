@@ -51,6 +51,8 @@ https://formidable.com/open-source/victory/
 
 - Implement metric selector next to graphs.
 - Implement axis change next to graph
+- Integrate Digital Ocean hosting so i can share
+-- https://www.digitalocean.com
 
 
 
