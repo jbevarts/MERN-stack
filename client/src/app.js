@@ -1,5 +1,6 @@
 // /client/App.js
 import React, { Component } from 'react';
+import LandingPage from './landingPage.js';
 import axios from "axios";
 import FormContainer from './containers/FormContainer';
 import './styles.css';
@@ -314,6 +315,10 @@ class App extends Component {
                 Submit Form
                </button>
             <p id="para"> Some Text Here </p>
+            <br />
+            <button onClick={() =>
+                ReactDOM.render(<LandingPage />, document.getElementById('root'))}> Return to Landing Page</button>
+            
             </div>
             </div>
           </div>

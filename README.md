@@ -29,7 +29,9 @@ https://formidable.com/open-source/victory/
 -- Attempted to use CanvasJS 4/7 though had difficulty with import/export statements.  Further research showed compatibility issues addmitted by vendor, so I ditched it.
 
 
-
+### Notes
+usage of index.js
+https://stackoverflow.com/questions/21063587/what-is-index-js-typically-used-for-in-node-js-project
 
 ### Design Goals
 - Implement raw data schema for DB ## DONE 4/5 
@@ -53,7 +55,8 @@ https://formidable.com/open-source/victory/
 - Implement axis change next to graph
 - Integrate Digital Ocean hosting so i can share
 -- https://www.digitalocean.com
-
+- Integrate passport OAUTH and google-sign in.
+-- https://hackernoon.com/m-e-r-n-stack-application-using-passport-for-authentication-920b1140a134
 
 
 

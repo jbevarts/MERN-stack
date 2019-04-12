@@ -34,3 +34,32 @@
 #para {
     width: 100%;
 }
+
+.login {
+  position: absolute;
+  padding: 0px;
+  text-align: center;
+  display: inline-block;
+  top: 40%;
+  left: 40%;
+  
+  border: 1px solid black;
+}
+
+.loginHeader {
+    padding: 5px;
+}
+
+.signup {
+    position: absolute;
+    padding: 0px;
+    text-align: center;
+    display: inline-block;
+    top: 40%;
+    left: 40%;
+    border: 1px solid black;
+}
+
+.signupHeader {
+    padding: 5px;
+}
