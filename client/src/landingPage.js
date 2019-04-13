@@ -8,12 +8,37 @@ import './styles.css';
 
 class LandingPage extends Component {
     state = {
+        users: null,
+        
         username: null,
         password: null,
+        loginSuccess: false,
+        errorMessage: ""
     };
 
     /* contructor that possibly takes in Auth information from user would be cool. */
     /* maybe a componentDidMount handler that takes care of user login based on some token */
+
+    
+    componentDidMount() {
+        fetch("http://localhost:3001/api/getUser")
+        .then(data => data.json())
+        .then(res => this.setState({ users: res.data }))
+    }
+
+    userLogin = () => {
+          this.state.users.forEach(user => {
+             if (user != undefined &&
+                 user != null &&
+                 user.email != null && 
+                 this.state.password != null &&
+                 user.email.toLowerCase() === this.state.username.toLowerCase() &&
+                 user.password === this.state.password) {
+                     ReactDOM.render(<App user={user} />, document.getElementById('root')) 
+                 }
+             }
+          )
+    };
 
     render() {
         return (
@@ -28,8 +53,11 @@ class LandingPage extends Component {
               <input type="text" placeholder="password" style = {{ width: "40%", textAlign: "center"  }}  onChange={e =>
                   this.setState({ password: e.target.value })} />
               <br />
-                <button type="button" onClick={() =>
-                    ReactDOM.render(<App />, document.getElementById('root'))}>
+              <span style={{ color: "red" }}>{this.state.errorMessage}</span>
+              <br />
+                <button type="button" onClick={() => { 
+                    this.userLogin();
+                } }>  
                   Login
                 </button>
               <button type="button" onClick ={() =>

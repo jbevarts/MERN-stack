@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 // this is data base's data structure
 const DataSchema = new Schema(
     {
+        owner_id: String,
         type: String,
         id: Number,
         message: String

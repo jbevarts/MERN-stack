@@ -62,7 +62,7 @@ class App extends Component {
   constructor(props) {
       super(props);
       this.state.user = props.user;
-  //    console.log(this.state.user);
+      console.log(this.state.user);
   }
 
 
@@ -75,10 +75,23 @@ class App extends Component {
   getDataFromDb = () => {
       fetch("http://localhost:3001/api/getData")
       .then(data => data.json())
-      .then(res => this.setState({ data: res.data }))
+      .then(res => res.data.forEach( data => {
+          if (this.state.user._id === data.owner_id) {
+              this.setState(previousState => ({
+                  data: [...previousState.data, data]
+              }));
+          }
+      }))
       fetch("http://localhost:3001/api/getFormData")
       .then(data => data.json())
-      .then(res => this.setState({ forms: res.data }))
+      .then(res => res.data.forEach( form => {
+          if (this.state.user._id === form.owner_id) {
+              this.setState(previousState => ({
+                  forms: [...previousState.forms, form]
+              }));
+          }
+      }))
+      
       graph.showGraph(this.state.forms);
       //this.showGraph(); 
   }
@@ -106,6 +119,7 @@ class App extends Component {
       }
 
       axios.post("http://localhost:3001/api/putForm", {
+          owner_id: this.state.user._id,
           type: "Form",
           id: idToBeAdded,
           name: name,

@@ -63,11 +63,6 @@ class SignupPage extends Component {
                 <br />
                 <span style={{ color: "red" }}>{this.state.errorMessage}</span>
                 <br />
-                  <button type="button" onClick={() =>
-                      ReactDOM.render(<LandingPage />, document.getElementById('root'))}>
-                      Cancel 
-                  </button>
-                
                 <button type="button" onClick={() =>
                     {this.validateUser()
 
@@ -81,7 +76,12 @@ class SignupPage extends Component {
                     }}}>
 
                     Sign Up
+                </button>
+                <button type="button" onClick={() =>
+                      ReactDOM.render(<LandingPage />, document.getElementById('root'))}>
+                      Cancel  
                   </button>
+                  
                 <br />  
                 <br />
               </div>
