@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 const Data = require("./data");
 const Form = require("./form");
+const User = require("./user");
 
 const API_PORT = 3001;
 const app = express();
@@ -54,6 +55,18 @@ router.get("/getFormData", (req, res) => {
         return res.json({success: true, data: data});
     });
 });
+
+
+router.get("/getUser", (req, res) => {
+    User.find((err, data) => {
+        if (err) return res.json({success: false, error: err });
+        return res.json({success: true, data: data});
+    });
+});
+
+
+
+
 
 // this is our update method
 // this method overwrites existing data in our database
@@ -121,8 +134,19 @@ router.post("/putForm", (req, res) => {
     form.about = about;
     form.save(err => {
         if (err) return res.json({ success: false, error: err });
-        console.log("i'm not failing");
         return res.json({ success: true });
+    });
+});
+
+router.post("/putUser", (req, res) => {
+    let user = new User();
+    
+    const { email, password } = req.body;
+    user.email = email;
+    user.password = password;
+    user.save(err => {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ sucess: true });
     });
 });
 

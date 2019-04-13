@@ -15,7 +15,7 @@ var graph = require('./graph.js');
 
 class App extends Component {
     
-  // initialize state  
+
   state = {
       data: [],
       forms: [],
@@ -34,8 +34,9 @@ class App extends Component {
       formGender: null,
       formSalary: null,
       formSkills: null,
-      formAbout: null
+      formAbout: null,
       
+      user: null
   };
 
   // when component mounts, first thing it does is fetch all existing data in db.  
@@ -58,6 +59,12 @@ class App extends Component {
       }
   }
 
+  constructor(props) {
+      super(props);
+      this.state.user = props.user;
+  //    console.log(this.state.user);
+  }
+
 
   // just a note, here, in the front end, we use the id key of our data object
     // in order to identify which we want to Update or Delete.
@@ -75,7 +82,6 @@ class App extends Component {
       graph.showGraph(this.state.forms);
       //this.showGraph(); 
   }
-
 
   // put method: uses backend API to create new query into database
   putDataToDB = message => {
