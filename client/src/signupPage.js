@@ -13,34 +13,51 @@ class SignupPage extends Component {
         email: null,
         password: null,
         passwordRepeat: null,
-        users: null,
+        users: [],
         validEmail: true,
-        errorMessage: ""
+        errorMessage: "",
+        loading: true
     }
-
-    validateUser = () => {
+    
+    componentDidMount() {
         fetch("http://localhost:3001/api/getUser")
         .then(data => data.json())
-        .then(res => res.data.forEach(user => {
-          if (user.email != null && user.email.toLowerCase() === this.state.email.toLowerCase()) {
-              this.setState({ validEmail: false })
-          }
+        .then(res => this.setState({ users: res.data }))
+        this.setState({loading: false})
+    };
         
-        }))
+
+    validateUser = () => {
+        while (this.state.loading) {
+        }
+        var success = true;
+        this.state.users.forEach(user => {
+          if (user.email != null && user.email.toLowerCase() === this.state.email.toLowerCase()) {
+              this.setState({ errorMessage: "Email already used" })
+              success = false;
+          }
+        })
+        console.log(success)
+        return success;
     };
 
     createUser = () => {
-        /*axios.post("http://localhost:3001/api/putUser", {
+        axios.post("http://localhost:3001/api/putUser", {
             email: this.state.email,
-            password: this.state.password
-        }) 
-        fetch("http://localhost:3001/api/getUser", { email : this.state.email })
-        .then(data => data.json())
-        .then(res => ReactDOM.render(<App user={res.data} />, document.getElementById('root')))
-        */
+            password: this.state.password })
+        .then(res => ReactDOM.render(<LandingPage />, document.getElementById('root')))
     };
 
 
+        /*
+        fetch("http://localhost:3001/api/getUser")
+        .then(data => data.json())
+        .then(res => res.data.forEach( user => {
+            if (user.email != null && user.email.toLowerCase() === this.state.email.toLowerCase()) {
+                ReactDOM.render(<App user={user} />, document.getElementById('root'))
+            }
+        }))
+    };*/
     // ComponentDidMount
     // ComponentWillUnMount
 
@@ -64,15 +81,12 @@ class SignupPage extends Component {
                 <span style={{ color: "red" }}>{this.state.errorMessage}</span>
                 <br />
                 <button type="button" onClick={() =>
-                    {this.validateUser()
-
-                    if (this.state.validUser) {
-                        console.log("good to make new account")
-                        this.createUser() 
+                    {
+                    if (this.validateUser()) {
+                        console.log("good to make new account");
+                        this.createUser();
                     } else {
                         console.log("else case")
-                        this.setState({ errorMessage: "Something went wrong, try again" })
-                        this.setState({ validEmail: true })
                     }}}>
 
                     Sign Up

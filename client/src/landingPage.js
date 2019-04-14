@@ -8,6 +8,7 @@ import './styles.css';
 
 class LandingPage extends Component {
     state = {
+        loading: true,
         users: null,
         
         username: null,
@@ -24,9 +25,17 @@ class LandingPage extends Component {
         fetch("http://localhost:3001/api/getUser")
         .then(data => data.json())
         .then(res => this.setState({ users: res.data }))
+        this.setState({ loading: false })
+       /* fetch("https://localhost:3001/api/getUsersLoggedIn")
+        .then(data => data.json())
+        .then(res => res.data.forEach( user => {
+         */
+    
     }
 
     userLogin = () => {
+        while (this.state.loading) {
+        }
           this.state.users.forEach(user => {
              if (user != undefined &&
                  user != null &&
