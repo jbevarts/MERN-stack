@@ -6,6 +6,7 @@ const logger = require("morgan");
 const Data = require("./data");
 const Form = require("./form");
 const User = require("./user");
+const LoggedIn = require("./usersloggedin");
 
 const API_PORT = 3001;
 const app = express();
@@ -65,7 +66,35 @@ router.get("/getUser", (req, res) => {
 });
 
 
+router.get("/checkLogin", (req, res) => {
+    LoggedIn.find((err, data) => {
+        if (err) return res.json({ success: false, error: err });
+        
+        var name = false;
+        data[0].loggedIpAddresses.forEach( key => {
+        if (key[0] === req.connection.remoteAddress) {
+           name = key[1];
+        }
+        });
+        return res.json({ success: true, data: name });
+    });
+});
 
+router.post("/login", (req, res) => {
+    const { user } = req.body;
+    LoggedIn.findOneAndUpdate({}, {"$push": {"loggedIpAddresses": [[req.connection.remoteAddress, user]] }}, (err, data) => {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true, data: data});
+    });
+});
+
+router.post("/logout", (req, res) => {
+    const { user } = req.body;
+    LoggedIn.findOneAndUpdate({}, {"$pull": {"loggedIpAddresses": [req.connection.remoteAddress, user]}}, (err, data) => {
+        if (err) return res.json({ sucess: false, error: err });
+        return res.json({ sucess: true, data: data });
+    });
+});
 
 
 // this is our update method

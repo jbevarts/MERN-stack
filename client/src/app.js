@@ -43,26 +43,33 @@ class App extends Component {
   // then, we incorporate a polling logic so that it's easy to see if 
   // db has changed and implement those changes into UI
   componentDidMount() {
+      axios.post("http://localhost:3001/api/login", 
+          { user: this.state.user.email });
       this.getDataFromDb();
-      if (!this.state.intervalIsSet) {
+ /*     if (!this.state.intervalIsSet) {
           let interval = setInterval(this.getDataFromDb, 1000);
           this.setState({ intervalIsSet: interval });
-      }
+ */
+      
   }
 
   // never let a process live forever
     // always kill a process everytime we are done using it
   componentWillUnmount() {
-      if (this.state.intervalIsSet) {
+      let a = 2;
+      /*axios.post("http://localhost:3001/api/logout",
+          { user: this.state.user.email });*/
+     /* if (this.state.intervalIsSet) {
           clearInterval(this.state.intervalIsSet);
           this.setState({ intervalIsSet: null });
-      }
+     */ 
+      
   }
 
   constructor(props) {
       super(props);
       this.state.user = props.user;
-      console.log(this.state.user);
+  
   }
 
 
@@ -80,7 +87,6 @@ class App extends Component {
           var arr = [];
           res.data.forEach( form => 
             {
-            console.log(form)
             if (this.state.user._id === form.ownerid) {
                 arr.push(form);
             } 
@@ -197,6 +203,9 @@ class App extends Component {
     // the notation below selects the data field within this.state
     const { data } = this.state;
     const { forms } = this.state;
+    while (this.state.loading === true) {
+        ;
+    }
     return (
         <div>
           
@@ -334,8 +343,11 @@ class App extends Component {
                </button>
             <p id="para"> Some Text Here </p>
             <br />
-            <button onClick={() =>
-                ReactDOM.render(<LandingPage />, document.getElementById('root'))}> Return to Landing Page</button>
+            <button onClick={() => {
+                axios.post("http://localhost:3001/api/logout",
+                    { user: this.state.user.email });
+                ReactDOM.render(<LandingPage />, document.getElementById('root'))            
+            }}> Return to Landing Page</button>
             
             </div>
             </div>

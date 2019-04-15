@@ -24,19 +24,29 @@ class LandingPage extends Component {
     componentDidMount() {
         fetch("http://localhost:3001/api/getUser")
         .then(data => data.json())
-        .then(res => this.setState({ users: res.data }))
-        this.setState({ loading: false })
-       /* fetch("https://localhost:3001/api/getUsersLoggedIn")
+        .then(res => 
+        {
+        this.setState({ users: res.data });
+        fetch("http://localhost:3001/api/checkLogin")
         .then(data => data.json())
-        .then(res => res.data.forEach( user => {
-         */
-    
+        .then(res => {
+            if (res.data != false) {
+                this.state.users.forEach( user => {
+                    console.log(user)
+                    if (user.email.toLowerCase() === res.data.toLowerCase()) {
+                        ReactDOM.render(<App user={user} />, document.getElementById('root'))
+                    }
+                })
+            }
+        })
+            })
+        this.setState({ loading: false });
     }
 
     userLogin = () => {
         while (this.state.loading) {
         }
-          this.state.users.forEach(user => {
+        this.state.users.forEach(user => {
              if (user != undefined &&
                  user != null &&
                  user.email != null && 
@@ -50,6 +60,7 @@ class LandingPage extends Component {
     };
 
     render() {
+        
         return (
             <div className="login">
               <div className="loginHeader">
