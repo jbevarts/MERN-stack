@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 const FormDataSchema = new Schema(
     {
-        ownder_id: String,
+        ownerid: String,
         type: String,
         id: Number,
         name: String,

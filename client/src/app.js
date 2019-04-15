@@ -73,24 +73,22 @@ class App extends Component {
 
   // first get method : uses backend API to getch data from database
   getDataFromDb = () => {
-      fetch("http://localhost:3001/api/getData")
-      .then(data => data.json())
-      .then(res => res.data.forEach( data => {
-          if (this.state.user._id === data.owner_id) {
-              this.setState(previousState => ({
-                  data: [...previousState.data, data]
-              }));
-          }
-      }))
       fetch("http://localhost:3001/api/getFormData")
       .then(data => data.json())
-      .then(res => res.data.forEach( form => {
-          if (this.state.user._id === form.owner_id) {
-              this.setState(previousState => ({
-                  forms: [...previousState.forms, form]
-              }));
+      .then(res =>
+          {
+          var arr = [];
+          res.data.forEach( form => 
+            {
+            console.log(form)
+            if (this.state.user._id === form.ownerid) {
+                arr.push(form);
+            } 
+            }
+            )
+          this.setState({ forms: arr })
           }
-      }))
+      )
       
       graph.showGraph(this.state.forms);
       //this.showGraph(); 
@@ -119,7 +117,7 @@ class App extends Component {
       }
 
       axios.post("http://localhost:3001/api/putForm", {
-          owner_id: this.state.user._id,
+          ownerid: this.state.user._id,
           type: "Form",
           id: idToBeAdded,
           name: name,
