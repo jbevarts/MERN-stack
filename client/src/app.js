@@ -19,7 +19,8 @@ class App extends Component {
   state = {
       data: [],
       forms: [],
-      
+      formStyles: [],
+
       id: 0,
       message: null,
       intervalIsSet: false,
@@ -36,7 +37,10 @@ class App extends Component {
       formSkills: null,
       formAbout: null,
       
-      user: null
+      user: null,
+
+      createNewStyle: false,
+      newFormMetrics: 0
   };
 
   // when component mounts, first thing it does is fetch all existing data in db.  
@@ -69,7 +73,12 @@ class App extends Component {
   constructor(props) {
       super(props);
       this.state.user = props.user;
+      this.state.formStyles = props.user.formStyles;
+      this.state.forms = props.user.forms;
+
+      //this.putFormToDB("New Type4", "jerry", 30, "male", 3000, "about me");
   
+      console.log(this.state.formStyles)
   }
 
 
@@ -80,7 +89,20 @@ class App extends Component {
 
   // first get method : uses backend API to getch data from database
   getDataFromDb = () => {
-      fetch("http://localhost:3001/api/getFormData")
+      
+      fetch("http://localhost:3001/api/getUser")
+      .then(data => data.json())
+      .then(res => {
+          res.data.forEach ( user => {
+              if (user._id === this.state.user._id) {
+                  this.setState({ user: user })
+                  this.setState({ forms: user.forms })
+                  this.setState({ formStyles: user.formStyles })
+              }
+          })
+      })
+      
+      /*fetch("http://localhost:3001/api/getFormData")
       .then(data => data.json())
       .then(res =>
           {
@@ -92,12 +114,11 @@ class App extends Component {
             } 
             }
             )
+          //graph.showGraph(arr);
           this.setState({ forms: arr })
           }
-      )
+      )*/
       
-      graph.showGraph(this.state.forms);
-      //this.showGraph(); 
   }
 
   // put method: uses backend API to create new query into database
@@ -115,16 +136,22 @@ class App extends Component {
       });
   };
 
-  putFormToDB = (name, age, gender, salary, about) => {
+  putFormToDB = (type, name, age, gender, salary, about) => {
       let currentIds = this.state.forms.map(form => form.id);
       let idToBeAdded = 0;
       while (currentIds.includes(idToBeAdded)) {
           ++idToBeAdded;
       }
 
+      let newType = true;
+      if (this.state.formStyles.includes(type)) {
+          newType = false;
+      }
+
       axios.post("http://localhost:3001/api/putForm", {
           ownerid: this.state.user._id,
-          type: "Form",
+          newType: newType,
+          type: type,
           id: idToBeAdded,
           name: name,
           age: age,
@@ -133,6 +160,8 @@ class App extends Component {
           skills: ["React"],
           about: about
       });
+
+          
   };
   // delete method : uses backend api to remove existing database information
   deleteFromDB = idTodelete => {
@@ -195,20 +224,118 @@ class App extends Component {
       });
   };
 
+  metricSheets = () => {
+      let sheets = [];
+      for ( var i = 0; i < this.state.newFormMetrics; i++) {
+          sheets.push(
+              <div className='metricSheet'>
+                  <input type="text" style={{ padding: "5px", textAlign: "center" }} placeholder="Name of metric?"/>
+                  <br />
+                  
+                  <select placeholder="Type" name="metric type">
+                      <option value="number">Number</option>
+                      <option value="string">String</option>
+                  </select>
+                  <br />
+                  <br />
+              
+              
+              </div>);
+      }
+      return sheets;
+  };
+
+  createStyle = () => {
+      return (
+          
+          <button onClick = {() => 
+              ReactDOM.render(<App user={this.state.user} />, document.getElementById('root'))
+          }>Cancel</button>
+      )
+  };
+
+  submitNewStyle = () => {
+      ;
+  }
   // here is the UI
   // visualize the capabilities
  
   render() {
 
     // the notation below selects the data field within this.state
-    const { data } = this.state;
     const { forms } = this.state;
+    const { formStyles } = this.state;
+
     while (this.state.loading === true) {
         ;
     }
     return (
-        <div>
-          
+        <div className="screen">
+            <div className="right">
+             
+            </div>
+            <div className ="left">
+                <button onClick={() => {
+                 axios.post("http://localhost:3001/api/logout",
+                     { user: this.state.user.email })
+                     ReactDOM.render(<LandingPage />, document.getElementById('root'))}
+                }> Logout </button>
+
+                <div className="styles" id="styles">
+                    <h1>Styles</h1>
+                    {
+                    !this.state.createNewStyle ? (  
+                        formStyles.length <= 0 ? (  
+                            "Create new form style to begin" 
+                        ) : (
+                            formStyles.map( style => (
+                                <div className="formStyleEntry">{style}</div>
+                            ))
+                        )    
+                    ) : (
+                        <div className="newForm">
+                            How many metrics? 
+                            <br />
+                            <input type="number" style={{ }} onChange={(e) =>
+                                this.setState({ newFormMetrics: e.target.value })}>
+                            </input>
+                            <br />
+                             {
+                                 this.metricSheets()
+                             }
+                           
+                            <br />
+                            <br />
+                            { this.state.newFormMetrics > 0 ? <button onClick={() => this.submitNewStyle()}>Submit</button> : "" }
+
+                            <button onClick = {() =>
+                                this.setState({ createNewStyle: false })}>
+                                Cancel
+                            </button>
+                        </div>
+                    )
+                    }
+                    <br />
+                    {!this.state.createNewStyle ?
+                       
+                        <button onClick = {() =>
+                             this.setState({ createNewStyle: true })
+                         }>Create New Style</button>
+                     : ""
+                    }
+                    <br />
+                </div>
+            </div>
+        </div>
+    );
+  }
+}
+
+
+/*
+ *
+ * <div>
+
          <div className="right">
              {data.length <= 0 ? "No DB Entries Yet" : data.map(dat => (
                <div className="data">
@@ -322,12 +449,12 @@ class App extends Component {
                <button
                 onClick={() =>
                         this.deleteAllFormsFromDB()}
-               > DELETE ALL 
+               > DELETE ALL
                </button>
-        
-        
+
+
                <p> Wanna delete a form by id? </p>
-               
+
                <input
                  type="text"
                  style={{width: "200px" }}
@@ -346,15 +473,20 @@ class App extends Component {
             <button onClick={() => {
                 axios.post("http://localhost:3001/api/logout",
                     { user: this.state.user.email });
-                ReactDOM.render(<LandingPage />, document.getElementById('root'))            
+                ReactDOM.render(<LandingPage />, document.getElementById('root'))
             }}> Return to Landing Page</button>
-            
+
             </div>
             </div>
           </div>
         </div>
-    );
-  }
-}
+ *
+ *
+ *
+ *
+ *
+*/
+
+
 
 export default App;

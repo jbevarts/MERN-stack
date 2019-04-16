@@ -151,7 +151,7 @@ router.post("/putData", (req, res) => {
 
 router.post("/putForm", (req, res) => {
     let form = new Form();
-    const {ownerid, type, id, name, age, gender, salary, skills, about} = req.body;
+    const {ownerid, newType, type, id, name, age, gender, salary, skills, about} = req.body;
     // TODO: add some input sanitization similar to above in putData
     form.ownerid = ownerid;
     form.type = type;
@@ -162,9 +162,19 @@ router.post("/putForm", (req, res) => {
     form.salary = salary;
     form.skills = skills;
     form.about = about;
+    console.log(newType)
     form.save(err => {
         if (err) return res.json({ success: false, error: err });
-        return res.json({ success: true });
+        if (newType) {
+            User.findByIdAndUpdate(ownerid, {"$push": {"formStyles": type }}, err => {
+                if (err) return res.json({ success: false, error: err });
+            });
+
+        }
+        User.findByIdAndUpdate(ownerid, {"$push": {"forms": form }}, err => {
+            if (err) return res.json({ success: false, error: err });
+            return res.json({ success: true });
+        });
     });
 });
 

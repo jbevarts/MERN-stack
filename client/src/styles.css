@@ -69,3 +69,23 @@
 .signupHeader {
     padding: 5px;
 }
+
+.styles {
+    text-align: center;
+}
+
+.formStyleEntry {
+    border: 1px solid green;
+    background-color: lightgreen;
+}
+
+.metricSheet {
+    position: relative;
+    padding: 5px;
+    text-align: center;
+    background-color: lightgreen;
+    border: 1px solid green;
+    width: 65%;
+    display: inline-block;
+}
+

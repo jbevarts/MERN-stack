@@ -8,6 +8,7 @@ const UserSchema = new Schema (
         email: String,
         password: String,
         data: [],
+        formStyles: [],
         forms: [],
     },
     { timestamps: true }

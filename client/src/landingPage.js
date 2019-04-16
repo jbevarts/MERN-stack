@@ -32,7 +32,6 @@ class LandingPage extends Component {
         .then(res => {
             if (res.data != false) {
                 this.state.users.forEach( user => {
-                    console.log(user)
                     if (user.email.toLowerCase() === res.data.toLowerCase()) {
                         ReactDOM.render(<App user={user} />, document.getElementById('root'))
                     }
