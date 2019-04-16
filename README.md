@@ -29,35 +29,6 @@ https://formidable.com/open-source/victory/
 -- Attempted to use CanvasJS 4/7 though had difficulty with import/export statements.  Further research showed compatibility issues addmitted by vendor, so I ditched it.
 
 
-### Notes
-usage of index.js
-https://stackoverflow.com/questions/21063587/what-is-index-js-typically-used-for-in-node-js-project
-
-### Design Goals
-- Implement raw data schema for DB ## DONE 4/5 
-- Establish HTTP cycle between backend and frontend ## DONE 4/5
-- Create polling mechanism for updating state ## DONE 4/7 
-- "Hello World" concurrently between front and backend. ## DONE 4/7
-- Implement A form Schema and CRUD ## In progress
-- Implement A graph w/ dummy data ## DONE 4/10
-- Implement data from forms into graph ## DONE 4/10
-- Implement animations for graph
-- Implement theme for graph ## DONE 4/10
-- Implement 2nd graph of same data
-- Create styles of forms ## started 4/10 ** CURRENT GOAL **
--- Proposed Flow: 
-     High-Level: Forms Container
-     Forms container initially contains: Form styles rendered, button to create new form
-     "onClick" of formStyle -> Render form in container
-     "onClick" of createForm -> Render formCreation in container
-
-- Implement metric selector next to graphs.
-- Implement axis change next to graph
-- Integrate Digital Ocean hosting so i can share
--- https://www.digitalocean.com
-- Integrate passport OAUTH and google-sign in.
--- https://hackernoon.com/m-e-r-n-stack-application-using-passport-for-authentication-920b1140a134
-
 
 
 ### Author: Jerry Evarts
