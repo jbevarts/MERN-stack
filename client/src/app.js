@@ -229,7 +229,8 @@ class App extends Component {
       for ( var i = 0; i < this.state.newFormMetrics; i++) {
           sheets.push(
               <div className='metricSheet'>
-                  <input type="text" style={{ padding: "5px", textAlign: "center" }} placeholder="Name of metric?"/>
+                  <br />
+                  <input type="text" style={{ width: "70%", padding: "5px", textAlign: "center" }} placeholder="Name of metric?"/>
                   <br />
                   
                   <select placeholder="Type" name="metric type">
