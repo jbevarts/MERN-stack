@@ -8,13 +8,7 @@ const FormDataSchema = new Schema(
     {
         ownerid: String,
         type: String,
-        id: Number,
-        name: String,
-        age: Number,
-        gender: String,
-        salary: Number,
-        skills: [String], // maybe change this
-        about: String
+        metrics: [] // value, type
     },
     { timestamps: true }
 );

@@ -7,6 +7,8 @@ const Data = require("./data");
 const Form = require("./form");
 const User = require("./user");
 const LoggedIn = require("./usersloggedin");
+const Schema = mongoose.Schema;
+
 
 const API_PORT = 3001;
 const app = express();
@@ -69,12 +71,20 @@ router.get("/getUser", (req, res) => {
 router.get("/checkLogin", (req, res) => {
     LoggedIn.find((err, data) => {
         if (err) return res.json({ success: false, error: err });
-        
         var name = false;
+        if (typeof data[0] == 'undefined') {
+            const logged = new LoggedIn();
+            logged.loggedIpAddresses = [];
+            logged.save( err => {
+                if (err) console.log(err) 
+                console.log("added loggedIn collection"); 
+            })
+            return res.json({ success: false, data: name });
+        }    
         data[0].loggedIpAddresses.forEach( key => {
-        if (key[0] === req.connection.remoteAddress) {
-           name = key[1];
-        }
+            if (key[0] === req.connection.remoteAddress) {
+                name = key[1];
+            }
         });
         return res.json({ success: true, data: name });
     });
@@ -125,6 +135,48 @@ router.delete("/deleteForm", (req, res) => {
         if (err) return res.send(err);
         return res.json({ success: true });
     });
+});
+
+
+router.post("/putNewStyle", (req, res) => {
+    let sch = new Schema({strict: false});
+    let next = "";
+    const { name, data } = req.body;
+    let styles = [];
+    sch.add({ ownerid: "String" })
+    sch.add({ styleNames: "Array" })
+    for (var i = 0; i < data.length; i++) {
+        let dat = data[i];
+        styles.push(dat)
+        if (dat[1] === "string") {
+        if (i === 0) {
+            sch.add({zero: "String"})
+        } else if (i === 1) {
+            sch.add({one: "String"})
+        } else if (i === 2) {
+            sch.add({two: "String"})
+        } else if (i === 3) {
+            sch.add({three: "String"})
+        }
+        } else {
+         if (i === 0) {
+             sch.add({zero: "Number"})
+         } else if (i === 1) {
+             sch.add({one: "Number"})
+         } else if (i === 2) {
+             sch.add({two: "Number"})
+         } else if (i === 3) {
+             sch.add({three: "Number"})
+         }
+    }}
+    const newStyle = mongoose.model(name, sch);
+    
+    newStyle.ownerid = req.connection.remoteAddress;
+    newSytle.styleNames = 
+    
+    
+    console.log(styles)
+    console.log(sch)
 });
 
 

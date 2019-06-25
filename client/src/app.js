@@ -7,6 +7,8 @@ import './styles.css';
 import ReactDOM from 'react-dom';
 import { VictoryBar, VictoryChart, VictoryTheme } from 'victory';
 
+
+
 var graph = require('./graph.js');
 
 //import CanvasJS from 'canvasjs';
@@ -230,16 +232,12 @@ class App extends Component {
           sheets.push(
               <div className='metricSheet'>
                   <br />
-                  <input type="text" style={{ width: "70%", padding: "5px", textAlign: "center" }} placeholder="Name of metric?"/>
+                  <input type="text" id = {i} style={{ width: "70%", padding: "5px", textAlign: "center" }} placeholder="Name of metric?"/>
                   <br />
-                  
-                  <select placeholder="Type" name="metric type">
-                      <option value="number">Number</option>
-                      <option value="string">String</option>
+                  <select name="metric" id = {i + 10} >
+                    <option type ="number" value="number">number</option>
+                    <option type="string" value="string">string</option>
                   </select>
-                  <br />
-                  <br />
-              
               
               </div>);
       }
@@ -256,7 +254,20 @@ class App extends Component {
   };
 
   submitNewStyle = () => {
-      ;
+      
+      let metrics = [];
+
+      for (var i = 0; i < this.state.newFormMetrics; i++) {
+          metrics.push([document.getElementById(i).value, document.getElementById(i + 10).value])     
+      }  // need to build a db type for style
+
+      axios.post("http://localhost:3001/api/putNewStyle", 
+          {
+              name: this.state.newFormTitle,
+              data: metrics
+          }
+      )
+
   }
   // here is the UI
   // visualize the capabilities
@@ -283,18 +294,24 @@ class App extends Component {
                 }> Logout </button>
 
                 <div className="styles" id="styles">
-                    <h1>Styles</h1>
+                    <h1>Your Event Types</h1>
                     {
                     !this.state.createNewStyle ? (  
                         formStyles.length <= 0 ? (  
                             "Create new form style to begin" 
                         ) : (
                             formStyles.map( style => (
-                                <div className="formStyleEntry">{style}</div>
+                                <div className="metricSheet">{style}</div>
                             ))
                         )    
                     ) : (
                         <div className="newForm">
+                            Name?
+                            <br/>
+                            <input type="text" onChange={(e) => 
+                                this.setState({ newFormTitle: e.target.value })}>
+                            </input>
+                            <br />
                             How many metrics? 
                             <br />
                             <input type="number" style={{ }} onChange={(e) =>
@@ -310,7 +327,7 @@ class App extends Component {
                             { this.state.newFormMetrics > 0 ? <button onClick={() => this.submitNewStyle()}>Submit</button> : "" }
 
                             <button onClick = {() =>
-                                this.setState({ createNewStyle: false })}>
+                                this.setState({ createNewStyle: false, newFormMetrics: 0 })}>
                                 Cancel
                             </button>
                         </div>
