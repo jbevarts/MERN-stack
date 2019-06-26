@@ -138,45 +138,15 @@ router.delete("/deleteForm", (req, res) => {
 });
 
 
-router.post("/putNewStyle", (req, res) => {
-    let sch = new Schema({strict: false});
-    let next = "";
-    const { name, data } = req.body;
-    let styles = [];
-    sch.add({ ownerid: "String" })
-    sch.add({ styleNames: "Array" })
-    for (var i = 0; i < data.length; i++) {
-        let dat = data[i];
-        styles.push(dat)
-        if (dat[1] === "string") {
-        if (i === 0) {
-            sch.add({zero: "String"})
-        } else if (i === 1) {
-            sch.add({one: "String"})
-        } else if (i === 2) {
-            sch.add({two: "String"})
-        } else if (i === 3) {
-            sch.add({three: "String"})
-        }
-        } else {
-         if (i === 0) {
-             sch.add({zero: "Number"})
-         } else if (i === 1) {
-             sch.add({one: "Number"})
-         } else if (i === 2) {
-             sch.add({two: "Number"})
-         } else if (i === 3) {
-             sch.add({three: "Number"})
-         }
-    }}
-    const newStyle = mongoose.model(name, sch);
+router.post("/updateUserStyles", (req, res) => {
+    const { userID, form } = req.body;
+    console.log(userID)
+    console.log(form)
+    User.findByIdAndUpdate(userID, {"$push": {"formStyles": style }}, err => {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true });
+    });
     
-    newStyle.ownerid = req.connection.remoteAddress;
-    newSytle.styleNames = 
-    
-    
-    console.log(styles)
-    console.log(sch)
 });
 
 

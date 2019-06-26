@@ -30,6 +30,7 @@ class App extends Component {
       idToUpdate: null,
       objectToUpdate: null,
       
+      newFormTitle: null,
       
       formId: null,
       formName: null,
@@ -79,7 +80,8 @@ class App extends Component {
       this.state.forms = props.user.forms;
 
       //this.putFormToDB("New Type4", "jerry", 30, "male", 3000, "about me");
-  
+ 
+      console.log(this.state.user._id)
       console.log(this.state.formStyles)
   }
 
@@ -258,16 +260,26 @@ class App extends Component {
       let metrics = [];
 
       for (var i = 0; i < this.state.newFormMetrics; i++) {
-          metrics.push([document.getElementById(i).value, document.getElementById(i + 10).value])     
+          const line = {
+              title: document.getElementById(i).value, 
+              type: document.getElementById(i + 10).value
+          };
       }  // need to build a db type for style
-
-      axios.post("http://localhost:3001/api/putNewStyle", 
+      axios.post("http://localhost:3001/api/updateUserStyles", 
           {
-              name: this.state.newFormTitle,
-              data: metrics
+              userID: this.state.user._id,
+              form: metrics 
           }
       )
 
+  }
+
+  clearFormStyles = () => {
+      axios.post("http://localhost:3001/api/clearFormStyles",
+          {
+              userID: this.state.user._id
+          }
+      )
   }
   // here is the UI
   // visualize the capabilities
@@ -335,11 +347,15 @@ class App extends Component {
                     }
                     <br />
                     {!this.state.createNewStyle ?
-                       
+                       <span>
                         <button onClick = {() =>
                              this.setState({ createNewStyle: true })
                          }>Create New Style</button>
-                     : ""
+                        <button onClick = {() =>
+                            this.clearFormStyles()
+                        }>Clear Form Styles</button>
+                      </span>
+                      : ""
                     }
                     <br />
                 </div>
